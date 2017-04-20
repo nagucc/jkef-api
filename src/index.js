@@ -7,12 +7,12 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import 'babel-polyfill';
+// import 'babel-polyfill';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import { host, port, cookieKey } from './config';
-import route from './route';
+import acceptorsCtrl from './controllers/acceptors';
 
 const app = express();
 
@@ -25,13 +25,17 @@ app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 const morgan = require('morgan');
+
 app.use(morgan('dev'));
 
 /*
 注册API
 */
-app.use('/route', route);
+app.use('/acceptors', acceptorsCtrl);
 
+app.use((err, req, res, next) => {
+  if (err.name === 'UnauthorizedError') res.send({ ret: 401, msg: err.message });
+});
 app.listen(port, () => {
   console.log(`The server is running at http://${host}/`);
 });

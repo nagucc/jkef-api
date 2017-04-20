@@ -3,7 +3,7 @@
   "name": "jkef-api",
   "version": "1.0.0",
   "description": "JKEF项目RESTful API",
-  "main": "index.js",
+  "main": "dist/index.js",
   "homepage": "https://github.com/nagucc/jkef-api#readme",
   "repository": {
     "type": "git",
@@ -27,11 +27,15 @@
     "extends": "airbnb-base"
   },
   "dependencies": {
+    "acceptor-middlewares": "^0.2.2",
     "babel-runtime": "^6.11.6",
     "body-parser": "^1.15.2",
     "cookie-parser": "^1.4.3",
     "debug": "^2.6.0",
     "express": "^4.14.0",
+    "express-jwt": "^5.1.0",
+    "jsonwebtoken": "^7.2.1",
+    "mongodb": "^2.2.26",
     "morgan": "^1.7.0"
   },
   "devDependencies": {
@@ -39,6 +43,7 @@
     "babel-core": "^6.17.0",
     "babel-eslint": "^7.0.0",
     "babel-plugin-transform-runtime": "^6.15.0",
+    "babel-polyfill": "^6.23.0",
     "babel-preset-latest": "^6.16.0",
     "babel-preset-stage-0": "^6.16.0",
     "babel-register": "^6.16.3",
@@ -63,6 +68,6 @@
     "build": "node tools/build",
     "prepublish": "npm run build",
     "publish:docs": "easystatic deploy docs --repo kriasoft/babel-starter-kit",
-    "start": "babel-node src/"
+    "start": "babel-node src/index.js"
   }
 }
