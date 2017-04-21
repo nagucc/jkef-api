@@ -12,7 +12,7 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import { host, port, cookieKey } from './config';
-import acceptorsCtrl from './controllers/acceptors';
+import controllers from './controllers';
 
 const app = express();
 
@@ -31,11 +31,12 @@ app.use(morgan('dev'));
 /*
 注册API
 */
-app.use('/acceptors', acceptorsCtrl);
+app.use('/acceptors', controllers.acceptors);
+app.use('/stat', controllers.stat);
 
 app.use((err, req, res, next) => {
   if (err.name === 'UnauthorizedError') res.send({ ret: 401, msg: err.message });
 });
 app.listen(port, () => {
-  console.log(`The server is running at http://${host}/`);
+  console.log(`The server is running at http://${host}/`); // eslint-disable-line
 });

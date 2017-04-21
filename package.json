@@ -36,7 +36,8 @@
     "express-jwt": "^5.1.0",
     "jsonwebtoken": "^7.2.1",
     "mongodb": "^2.2.26",
-    "morgan": "^1.7.0"
+    "morgan": "^1.7.0",
+    "nagu-validates": "^0.1.0"
   },
   "devDependencies": {
     "babel-cli": "^6.16.0",
