@@ -37,6 +37,7 @@
     "jsonwebtoken": "^7.2.1",
     "mongodb": "^2.2.26",
     "morgan": "^1.7.0",
+    "nagu-profile": "^0.5.2",
     "nagu-validates": "^0.1.0"
   },
   "devDependencies": {
