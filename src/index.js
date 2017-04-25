@@ -36,6 +36,7 @@ app.use('/stat', controllers.stat);
 
 app.use((err, req, res, next) => {
   if (err.name === 'UnauthorizedError') res.send({ ret: 401, msg: err.message });
+  else res.send({ ret: -1, msg: err.message });
 });
 app.listen(port, () => {
   console.log(`The server is running at http://${host}/`); // eslint-disable-line

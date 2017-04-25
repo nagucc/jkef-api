@@ -1,5 +1,6 @@
 import debug from 'debug';
 import { AcceptorMiddlewares, StatMiddlewares } from 'acceptor-middlewares';
+import { MongoProfileMiddlewares, MongoProfile } from 'nagu-profile';
 
 // debug
 export const error = debug('jkef-api:error');
@@ -20,3 +21,6 @@ export const secret = process.env.SECRET || 'my secret';
 
 export const amqpUrl = process.env.AMQP_URL || '';
 export const requestQueueName = process.env.AMQP_REQUEST_QUEUE_NAME || 'api-request';
+
+export const profileCollection = process.env.PROFILE_COLLECTION || 'profiles';
+export const profileManager = new MongoProfile(mongoUrl, profileCollection);
