@@ -8,7 +8,7 @@ import expressJwt from 'express-jwt';
 import { SUCCESS, UNAUTHORIZED,
   OBJECT_ALREADY_EXISTS } from 'nagu-validates';
 import { acceptorMiddlewares, secret,
-  profileMiddlewares as profile } from '../config';
+  profileMiddlewares as profile, supervisorDpt, manageDpt } from '../config';
 import { getToken } from '../utils';
 
 const tryRun = (func) => {
@@ -42,6 +42,16 @@ router.get('/list/:pageIndex',
     credentialsRequired: true,
     getToken,
   }),
+  // 判断是否是Supervisor或Manager，只有这两种角色可以查看列表
+  profile.isSupervisorOrManager(
+    getId,
+    manageDpt,
+    supervisorDpt,
+    (isSupervisorOrManager, req, res, next) => {
+      if (isSupervisorOrManager) next();
+      else res.send({ ret: UNAUTHORIZED });
+    },
+  ),
   // 获取数据
   acceptorMiddlewares.listByRecord(
     req => ({
@@ -118,6 +128,15 @@ router.put('/edu/:id',
     credentialsRequired: true,
     getToken,
   }),
+
+  // 只有用户自己或管理员才能进行操作
+  profile.isOwnerOrManager(
+    req => tryRun(() => new ObjectId(req.params.id)),
+    getId,
+    manageDpt,
+    (isOwnerOrManager, req, res, next) =>
+      (isOwnerOrManager ? next() : res.send({ ret: UNAUTHORIZED })),
+  ),
  acceptorMiddlewares.addEdu(
    req => tryRun(() => new ObjectId(req.params.id)),
    req => tryRun(() => ({
@@ -136,6 +155,14 @@ router.delete('/edu/:id',
     credentialsRequired: true,
     getToken,
   }),
+  // 只有用户自己或管理员才能进行操作
+  profile.isOwnerOrManager(
+    req => tryRun(() => new ObjectId(req.params.id)),
+    getId,
+    manageDpt,
+    (isOwnerOrManager, req, res, next) =>
+      (isOwnerOrManager ? next() : res.send({ ret: UNAUTHORIZED })),
+  ),
   acceptorMiddlewares.removeEdu(
     req => tryRun(() => new ObjectId(req.params.id)),
     req => tryRun(() => ({
@@ -153,6 +180,14 @@ router.put('/career/:id',
     credentialsRequired: true,
     getToken,
   }),
+  // 只有用户自己或管理员才能进行操作
+  profile.isOwnerOrManager(
+    req => tryRun(() => new ObjectId(req.params.id)),
+    getId,
+    manageDpt,
+    (isOwnerOrManager, req, res, next) =>
+      (isOwnerOrManager ? next() : res.send({ ret: UNAUTHORIZED })),
+  ),
   acceptorMiddlewares.addCareer(
     req => tryRun(() => new ObjectId(req.params.id)),
     req => tryRun(() => ({
@@ -170,6 +205,13 @@ router.delete('/career/:id',
     credentialsRequired: true,
     getToken,
   }),
+  profile.isOwnerOrManager(
+    req => tryRun(() => new ObjectId(req.params.id)),
+    getId,
+    manageDpt,
+    (isOwnerOrManager, req, res, next) =>
+      isOwnerOrManager ? next() : res.send({ ret: UNAUTHORIZED }),
+  ),
   acceptorMiddlewares.removeCareer(
     req => tryRun(() => new ObjectId(req.params.id)),
     req => tryRun(() => ({
@@ -187,6 +229,12 @@ router.put('/record/:id',
     credentialsRequired: true,
     getToken,
   }),
+  profile.isManager(
+    getId,
+    manageDpt,
+    (isManager, req, res, next) =>
+      isManager ? next() : res.send({ ret: UNAUTHORIZED }),
+  ),
   acceptorMiddlewares.addRecord(
     req => tryRun(() => new ObjectId(req.params.id)),
     req => tryRun(() => ({
@@ -205,6 +253,12 @@ router.delete('/record/:id/:recordId',
     credentialsRequired: true,
     getToken,
   }),
+  profile.isManager(
+    getId,
+    manageDpt,
+    (isManager, req, res, next) =>
+      isManager ? next() : res.send({ ret: UNAUTHORIZED }),
+  ),
   acceptorMiddlewares.removeRecord(
     req => tryRun(() => new ObjectId(req.params.id)),
     req => tryRun(() => new ObjectId(req.params.recordId)),
@@ -219,6 +273,28 @@ router.post('/:id',
     credentialsRequired: true,
     getToken,
   }),
+  // 只有拥有者或Manager才能执行更新
+  profile.isOwnerOrManager(
+    req => tryRun(() => new ObjectId(req.params.id)),
+    getId,
+    manageDpt,
+    (isOwnerOrManager, req, res, next) => {
+      if (isOwnerOrManager) next();
+      else res.send({ ret: UNAUTHORIZED });
+    },
+  ),
+  // 只有Manager才能更新userid和name字段
+  profile.isManager(
+    getId,
+    manageDpt,
+    (isManager, req, res, next) => {
+      if (!isManager) {
+        delete req.body.userid;
+        delete req.body.name;
+      }
+      next();
+    },
+  ),
   // 执行更新操作
   acceptorMiddlewares.updateById(
     req => tryRun(() => new ObjectId(req.params.id)),
