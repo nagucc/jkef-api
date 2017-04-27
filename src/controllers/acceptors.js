@@ -72,7 +72,7 @@ router.get('/:id',
     getToken,
   }),
   acceptorMiddlewares.getById(
-      req => (new ObjectId(req.params.id)),
+      req => tryRun(new ObjectId(req.params.id)),
   ),
 );
 
