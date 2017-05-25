@@ -33,6 +33,7 @@ app.use(morgan('dev'));
 */
 app.use('/acceptors', controllers.acceptors);
 app.use('/stat', controllers.stat);
+app.use('/wxapp', controllers.wxapp);
 
 app.use((err, req, res, next) => {
   if (err.name === 'UnauthorizedError') res.send({ ret: 401, msg: err.message });
