@@ -8,7 +8,7 @@ import expressJwt from 'express-jwt';
 import { SUCCESS, UNAUTHORIZED,
   OBJECT_ALREADY_EXISTS } from 'nagu-validates';
 import { acceptorMiddlewares, secret,
-  profileMiddlewares as profile, supervisorDpt, manageDpt } from '../config';
+  profileMiddlewares as profile, manageDpt } from '../config';
 import { getToken } from '../utils';
 
 const tryRun = (func) => {
@@ -66,6 +66,11 @@ router.get('/:id',
     credentialsRequired: true,
     getToken,
   }),
+  // 判断是否是Supervisor或Manager，只有这两种角色可以查看列表
+  (req, res, next) => {
+    if (req.user.isManager || req.user.isSupervisor) next();
+    else res.send({ ret: UNAUTHORIZED, msg: 'only manager or supervisor can go next.' });
+  },
   acceptorMiddlewares.getById(
       req => tryRun(new ObjectId(req.params.id)),
   ),
@@ -78,6 +83,11 @@ router.put('/',
     credentialsRequired: true,
     getToken,
   }),
+  // 判断是否是Manager，只有这种角色可以修改数据
+  (req, res, next) => {
+    if (req.user.isManager) next();
+    else res.send({ ret: UNAUTHORIZED, msg: 'only manager can go next.' });
+  },
   // 检查证件号码是否已在
   acceptorMiddlewares.findOneByIdCardNumber(
     req => req.body.idCard ? req.body.idCard.number : null,
