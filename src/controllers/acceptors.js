@@ -43,15 +43,10 @@ router.get('/list/:pageIndex',
     getToken,
   }),
   // 判断是否是Supervisor或Manager，只有这两种角色可以查看列表
-  profile.isSupervisorOrManager(
-    getId,
-    manageDpt,
-    supervisorDpt,
-    (isSupervisorOrManager, req, res, next) => {
-      if (isSupervisorOrManager) next();
-      else res.send({ ret: UNAUTHORIZED });
-    },
-  ),
+  (req, res, next) => {
+    if (req.user.isManager || req.user.isSupervisor) next();
+    else res.send({ ret: UNAUTHORIZED, msg: 'only manager or supervisor can go next.' });
+  },
   // 获取数据
   acceptorMiddlewares.listByRecord(
     req => ({
