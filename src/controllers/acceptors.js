@@ -8,7 +8,7 @@ import expressJwt from 'express-jwt';
 import { SUCCESS, UNAUTHORIZED,
   OBJECT_ALREADY_EXISTS } from 'nagu-validates';
 import { acceptorMiddlewares, secret,
-  profileMiddlewares as profile, manageDpt } from '../config';
+  profileMiddlewares as profile, manageDpt, info } from '../config';
 import { getToken } from '../utils';
 
 const tryRun = (func) => {
@@ -72,7 +72,7 @@ router.get('/:id',
     else res.send({ ret: UNAUTHORIZED, msg: 'only manager or supervisor can go next.' });
   },
   acceptorMiddlewares.getById(
-      req => tryRun(new ObjectId(req.params.id)),
+      req => (new ObjectId(req.params.id)),
   ),
 );
 
