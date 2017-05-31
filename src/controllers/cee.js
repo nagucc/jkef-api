@@ -36,7 +36,7 @@ router.put('/',
   }
 );
 
-router.get('/',
+router.get('/list/:pageIndex',
   // 确保用户已登录
   expressJwt({
     secret,
@@ -48,8 +48,17 @@ router.get('/',
     if (req.user.isManager) next();
     else res.send({ ret: UNAUTHORIZED, msg: 'only manager can go next.' });
   },
+  (req, res, next) => {
+    req.pageIndex = parseInt(req.params.pageIndex, 10);
+    req.pageSize = parseInt(req.query.pageSize || 200, 10);
+    if (isNaN(req.pageIndex) || isNaN(req.pageSize)) throw new Error('pageIndex or pageSize is wrong.');
+    next();
+  },
   async (req, res) => {
-    const list = await cim.list();
+    const list = await cim.list({
+      limit: req.pageSize,
+      skip: req.pageSize * req.pageIndex,
+    });
     const totalCount = await cim.count();
     res.json({
       ret: SUCCESS,
