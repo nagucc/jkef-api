@@ -23,10 +23,15 @@ export default class CeeInfoManager extends EntityManager {
   constructor(mongUrl, collectionName = 'cee_info') {
     super(mongUrl, collectionName);
   }
-  list(limit = 200, skip = 0) {
+  list(options = {}) {
+    options = {
+      pageSize: 200,
+      pageIndex: 0,
+      ...options,
+    };
     return this.find({
-      limit,
-      skip,
+      limit: options.pageSize,
+      skip: options.pageSize * options.pageIndex,
     });
   }
 }

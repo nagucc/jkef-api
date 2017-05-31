@@ -56,8 +56,8 @@ router.get('/list/:pageIndex',
   },
   async (req, res) => {
     const list = await cim.list({
-      limit: req.pageSize,
-      skip: req.pageSize * req.pageIndex,
+      pageSize: req.pageSize,
+      pageIndex: req.pageIndex,
     });
     const totalCount = await cim.count();
     res.json({
