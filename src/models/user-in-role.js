@@ -71,7 +71,6 @@ export default class MongoUserInRole {
   }
   // 为指定用户添加角色
   async addRole(appId, userId, role) {
-    console.log('add');
     if (!appId || !userId || !role) {
       throw new Error('appId, userId or role must be provided.');
     }

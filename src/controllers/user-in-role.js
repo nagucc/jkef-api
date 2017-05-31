@@ -42,17 +42,24 @@ router.put('/users',
   }),
   async (req, res) => {
     const { appId, userId, role } = req.body;
-    // 创建新用户
-    const user = await uir.insertUser(appId, userId);
-    // 设置角色
-    if (role) await uir.addRole(appId, userId, role);
+    try {
+      // 创建新用户
+      const user = await uir.insertUser(appId, userId);
+      // 设置角色
+      if (role) await uir.addRole(appId, userId, role);
 
-    res.json({
-      ret: SUCCESS,
-      data: {
-        _id: user,
-      },
-    });
+      res.json({
+        ret: SUCCESS,
+        data: {
+          _id: user,
+        },
+      });
+    } catch (e) {
+      res.json({
+        ret: -1,
+        msg: e.message,
+      });
+    }
   }
 );
 
