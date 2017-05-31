@@ -28,3 +28,5 @@ export const profileMiddlewares = new MongoProfileMiddlewares(mongoUrl, profileC
 
 export const manageDpt = parseInt(process.env.MANAGER_DEPT || '13', 10);
 export const supervisorDpt = parseInt(process.env.SUPERVISOR_DEPT || '14', 10);
+
+export const mockVersion = process.env.MOCK_VERSION || '0.0.0';

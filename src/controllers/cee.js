@@ -8,13 +8,24 @@ import expressJwt from 'express-jwt';
 import { SUCCESS, UNAUTHORIZED,
   OBJECT_ALREADY_EXISTS } from 'nagu-validates';
 import { secret, info, mongoUrl } from '../config';
-import { getToken } from '../utils';
+import { getToken, isMockVersion } from '../utils';
 const CeeInfoManager = require('../models/cee').default;
 
 const cim = new CeeInfoManager(mongoUrl);
 const router = new Router();
 
 router.put('/',
+    // 返回mock数据
+    (req, res, next) => {
+      if (isMockVersion(req)) {
+        res.json({
+          ret: SUCCESS,
+          data: {
+            _id: '592e61700000000000000000',
+          },
+        });
+      } else next();
+    },
   // 确保用户已登录
   expressJwt({
     secret,
@@ -27,7 +38,6 @@ router.put('/',
     else res.send({ ret: UNAUTHORIZED, msg: 'only manager can go next.' });
   },
   async (req, res) => {
-    console.log(req.body);
     const _id = await cim.insert(req.body);
     res.json({
       ret: SUCCESS,

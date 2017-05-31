@@ -20,7 +20,6 @@ const app = express();
 // Register Node.js middleware
 // -----------------------------------------------------------------------------
 app.use(cookieParser(cookieKey));
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
@@ -35,6 +34,7 @@ app.use('/acceptors', controllers.acceptors);
 app.use('/stat', controllers.stat);
 app.use('/wxapp', controllers.wxapp);
 app.use('/cee', controllers.cee);
+app.use('/uir', controllers.uir);
 
 app.use((err, req, res, next) => {
   if (err.name === 'UnauthorizedError') res.send({ ret: 401, msg: err.message });

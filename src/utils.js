@@ -1,3 +1,4 @@
+import { mockVersion } from './config';
 
 /*
 从request中获取jwt
@@ -9,4 +10,13 @@ export const getToken = (req) => {
   return '';
 };
 
-export default getToken;
+export const isMockVersion = (req) => {
+  const header = 'version';
+  const version = req.get(header);
+  return version === mockVersion;
+};
+
+export default {
+  getToken,
+  isMockVersion,
+};
