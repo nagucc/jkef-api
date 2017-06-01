@@ -49,7 +49,7 @@ router.put('/',
 router.get('/list/:pageIndex',
   // 返回mock数据
   (req, res, next) => {
-    if (isMockVersion) {
+    if (isMockVersion(req)) {
       const list = [{
         name: '张三',
         fromSchool: '通海一中',

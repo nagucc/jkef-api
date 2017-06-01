@@ -7,12 +7,46 @@ import expressJwt from 'express-jwt';
 import { SUCCESS, UNAUTHORIZED,
   OBJECT_ALREADY_EXISTS } from 'nagu-validates';
 import { mongoUrl, secret } from '../config';
-import { getToken } from '../utils';
+import { getToken, isMockVersion } from '../utils';
 import UserInRole from '../models/user-in-role';
 
 const uir = new UserInRole(mongoUrl);
 
 const router = new Router();
+
+// 根据appId和userId获取角色列表
+router.get('/roles/app/:appId/user/:userId',
+  // 返回mock数据
+  (req, res, next) => {
+    if (isMockVersion(req)) {
+      res.json({
+        ret: SUCCESS,
+        data: ['jkef:manager'],
+      });
+    } else next();
+  },
+  // 确保用户已登录
+  expressJwt({
+    secret,
+    credentialsRequired: true,
+    getToken,
+  }),
+  async (req, res) => {
+    const { appId, userId } = req.params;
+    try {
+      const user = await uir.userByUserId(appId, userId);
+      res.json({
+        ret: SUCCESS,
+        data: user.roles,
+      });
+    } catch (err) {
+      res.json({
+        ret: -1,
+        msg: err.message,
+      });
+    }
+  }
+);
 
 // 根据appId获取用户列表
 router.get('/users/app/:appId',
@@ -62,5 +96,6 @@ router.put('/users',
     }
   }
 );
+
 
 export default router;

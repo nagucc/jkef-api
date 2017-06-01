@@ -125,4 +125,14 @@ export default class MongoUserInRole {
     info('usersByRole: ', query);
     return await col.find(query).toArray();
   }
+
+  async userByUserId(appId, userId) {
+    const db = await this.getDb();
+    const col = db.collection(this.collectionName);
+    const query = {
+      [appId]: userId,
+    };
+    info('usersByUserId: ', query);
+    return await col.find(query).toArray();
+  }
 }
