@@ -11,7 +11,7 @@ export const getToken = (req) => {
 };
 
 export const isMockVersion = (req) => {
-  const header = 'version';
+  const header = 'x-app-version';
   const version = req.get(header);
   return version === mockVersion;
 };

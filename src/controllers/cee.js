@@ -47,6 +47,28 @@ router.put('/',
 );
 
 router.get('/list/:pageIndex',
+  // 返回mock数据
+  (req, res, next) => {
+    if (isMockVersion) {
+      const list = [{
+        name: '张三',
+        fromSchool: '通海一中',
+        toSchool: '玉溪一中',
+        parentName: '张二',
+        homeAddress: '纳古纳家营二组',
+        phone: '18909879987',
+        examTypeText: '中考',
+        point: 536,
+      }];
+      req.json({
+        ret: SUCCESS,
+        data: {
+          list,
+          totalCount: list.length,
+        },
+      });
+    } else next();
+  },
   // 确保用户已登录
   expressJwt({
     secret,
