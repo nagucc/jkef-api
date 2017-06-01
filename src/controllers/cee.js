@@ -60,7 +60,7 @@ router.get('/list/:pageIndex',
         examTypeText: '中考',
         point: 536,
       }];
-      req.json({
+      res.json({
         ret: SUCCESS,
         data: {
           list,
