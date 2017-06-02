@@ -130,7 +130,7 @@ export default class MongoUserInRole {
     const db = await this.getDb();
     const col = db.collection(this.collectionName);
     const query = {
-      [appId]: userId,
+      [`user.${appId}`]: userId,
     };
     info('usersByUserId: ', query);
     return await col.findOne(query);
