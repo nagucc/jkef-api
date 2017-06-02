@@ -35,6 +35,7 @@ app.use('/stat', controllers.stat);
 app.use('/wxapp', controllers.wxapp);
 app.use('/cee', controllers.cee);
 app.use('/uir', controllers.uir);
+app.use('/events', controllers.events);
 
 app.use((err, req, res, next) => {
   if (err.name === 'UnauthorizedError') res.send({ ret: 401, msg: err.message });

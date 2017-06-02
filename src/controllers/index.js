@@ -3,6 +3,7 @@ import acceptors from './acceptors';
 import wxapp from './wxapp';
 const cee = require('./cee').default;
 const uir = require('./user-in-role').default;
+const events = require('./events').default;
 
 export default {
   stat,
@@ -10,4 +11,5 @@ export default {
   wxapp,
   cee,
   uir,
+  events,
 };
