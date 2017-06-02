@@ -103,4 +103,49 @@ router.get('/list/:pageIndex',
   }
 );
 
+// 根据用户信息获取录取信息
+router.get('/app/:appId/user/:userId',
+  // 返回mock数据
+  (req, res, next) => {
+    if (isMockVersion(req)) {
+      const data = {
+        name: '张三',
+        fromSchool: '通海一中',
+        toSchool: '玉溪一中',
+        parentName: '张二',
+        homeAddress: '纳古纳家营二组',
+        phone: '18909879987',
+        examTypeText: '中考',
+        point: 536,
+        user: {
+          [req.params.appId]: req.params.userId,
+        },
+      };
+      res.json({
+        ret: SUCCESS,
+        data,
+      });
+    } else next();
+  },
+  // 确保用户已登录
+  expressJwt({
+    secret,
+    credentialsRequired: true,
+    getToken,
+  }),
+  // 判断是否是Manager，只有这种角色可以读取列表
+  (req, res, next) => {
+    if (req.user.isManager) next();
+    else res.send({ ret: UNAUTHORIZED, msg: 'only manager can go next.' });
+  },
+  async (req, res) => {
+    const { appId, userId } = req.params;
+    const data = await cim.findByUser(appId, userId);
+    res.json({
+      ret: SUCCESS,
+      data,
+    });
+  }
+);
+
 export default router;

@@ -13,6 +13,7 @@ CeeInfo
     toSchool,   // 录取学校
     point,      // 考试分数
     examType,   // 考试类型
+    user,       // 关联的用户信息
 
 }
 */
@@ -32,6 +33,13 @@ export default class CeeInfoManager extends EntityManager {
     return this.find({
       limit: options.pageSize,
       skip: options.pageSize * options.pageIndex,
+    });
+  }
+  findByUser(appId, userId) {
+    return this.findOne({
+      user: {
+        [appId]: userId,
+      },
     });
   }
 }
