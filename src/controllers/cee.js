@@ -9,6 +9,7 @@ import { SUCCESS, UNAUTHORIZED,
   OBJECT_ALREADY_EXISTS } from 'nagu-validates';
 import { secret, info, mongoUrl } from '../config';
 import { getToken, isMockVersion } from '../utils';
+
 const CeeInfoManager = require('../models/cee').default;
 
 const cim = new CeeInfoManager(mongoUrl);

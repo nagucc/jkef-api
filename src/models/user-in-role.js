@@ -133,6 +133,6 @@ export default class MongoUserInRole {
       [appId]: userId,
     };
     info('usersByUserId: ', query);
-    return await col.find(query).toArray();
+    return await col.findOne(query);
   }
 }
