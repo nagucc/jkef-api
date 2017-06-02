@@ -108,6 +108,7 @@ router.get('/app/:appId/user/:userId',
   (req, res, next) => {
     if (isMockVersion(req)) {
       const data = {
+        _id: '592e61700000000000000000',
         name: '张三',
         fromSchool: '通海一中',
         toSchool: '玉溪一中',
