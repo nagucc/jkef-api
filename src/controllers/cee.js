@@ -1,13 +1,12 @@
 /*
- eslint-disable no-param-reassign
+ eslint-disable no-param-reassign, no-underscore-dangle
 */
 
 import { Router } from 'express';
-// import { ObjectId } from 'mongodb';
+import { ObjectId } from 'mongodb';
 import expressJwt from 'express-jwt';
-import { SUCCESS, UNAUTHORIZED,
-  OBJECT_ALREADY_EXISTS } from 'nagu-validates';
-import { secret, info, mongoUrl } from '../config';
+import { SUCCESS, UNAUTHORIZED, SERVER_FAILED } from 'nagu-validates';
+import { secret, mongoUrl } from '../config';
 import { getToken, isMockVersion } from '../utils';
 
 const CeeInfoManager = require('../models/cee').default;
@@ -145,6 +144,44 @@ router.get('/app/:appId/user/:userId',
       ret: SUCCESS,
       data,
     });
+  }
+);
+
+// 删除指定Id的数据
+router.delete('/:iId',
+  // 返回mock数据
+  (req, res, next) => {
+    if (isMockVersion(req)) {
+      res.json({
+        ret: SUCCESS,
+      });
+    } else next();
+  },
+  // 确保用户已登录
+  expressJwt({
+    secret,
+    credentialsRequired: true,
+    getToken,
+  }),
+  // 判断是否是Manager，只有这种角色可以读取列表
+  (req, res, next) => {
+    if (req.user.isManager) next();
+    else res.send({ ret: UNAUTHORIZED, msg: 'only manager can go next.' });
+  },
+  async (req, res) => {
+    const { id } = req.params;
+    try {
+      const _id = new ObjectId(id);
+      await cim.removeById(_id);
+      res.json({
+        ret: SUCCESS,
+      });
+    } catch (e) {
+      res.status(500).json({
+        ret: SERVER_FAILED,
+        msg: e.message,
+      });
+    }
   }
 );
 

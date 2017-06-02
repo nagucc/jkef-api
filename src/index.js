@@ -38,8 +38,8 @@ app.use('/uir', controllers.uir);
 app.use('/events', controllers.events);
 
 app.use((err, req, res, next) => {
-  if (err.name === 'UnauthorizedError') res.send({ ret: 401, msg: err.message });
-  else res.send({ ret: -1, msg: err.message });
+  if (err.name === 'UnauthorizedError') res.status(401).json({ ret: 401, msg: err.message });
+  else res.status(500).json({ ret: -1, msg: err.message });
 });
 app.listen(port, () => {
   console.log(`The server is running at http://${host}/`); // eslint-disable-line
