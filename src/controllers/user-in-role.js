@@ -34,7 +34,9 @@ router.get('/roles/app/:appId/user/:userId',
   async (req, res) => {
     const { appId, userId } = req.params;
     try {
-      const user = await uir.userByUserId(appId, userId);
+      const user = (await uir.userByUserId(appId, userId)) || {
+        roles: [],
+      };
       res.json({
         ret: SUCCESS,
         data: user.roles,
