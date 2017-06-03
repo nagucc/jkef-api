@@ -116,6 +116,7 @@ router.get('/app/:appId/user/:userId',
         homeAddress: '纳古纳家营二组',
         phone: '18909879987',
         examTypeText: '中考',
+        examType: 4,
         point: 536,
         user: {
           [req.params.appId]: req.params.userId,
