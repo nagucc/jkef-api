@@ -118,7 +118,7 @@ router.get('/app/:appId/user/:userId',
         examTypeText: '中考',
         point: 536,
         user: {
-          [req.params.appId]: req.params.userId,
+          [req.params.appId]: 'mockUser',
         },
       };
       res.json({
