@@ -214,7 +214,7 @@ router.post('/:id',
     const { id } = req.params;
     try {
       const _id = new ObjectId(id);
-      await cim.updateyId({
+      await cim.updateById({
         ...req.body,
         _id,
       });
