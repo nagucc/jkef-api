@@ -186,4 +186,49 @@ router.delete('/:iId',
   }
 );
 
+router.post('/:id',
+  // 返回mock数据
+  (req, res, next) => {
+    if (isMockVersion(req)) {
+      res.json({
+        ret: SUCCESS,
+        data: {
+          _id: '592e61700000000000000000',
+        },
+      });
+    } else next();
+  },
+  // 确保用户已登录
+  expressJwt({
+    secret,
+    credentialsRequired: true,
+    getToken,
+  }),
+  // 判断是否是Manager，只有这种角色可以读取列表
+  (req, res, next) => {
+    if (req.user.isManager) next();
+    else res.send({ ret: UNAUTHORIZED, msg: 'only manager can go next.' });
+  },
+  async (req, res) => {
+    const { id } = req.params;
+    try {
+      const _id = new ObjectId(id);
+      await cim.updateyId({
+        ...req.body,
+        _id,
+      });
+      res.json({
+        ret: SUCCESS,
+        data: {
+          _id,
+        },
+      });
+    } catch (e) {
+      res.status(500).json({
+        ret: SERVER_FAILED,
+        msg: e.message,
+      });
+    }
+  }
+);
 export default router;
