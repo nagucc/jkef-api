@@ -102,8 +102,28 @@ router.put('/',
   ),
   // 在acceptor中添加数据
   acceptorMiddlewares.insert(
-    // acceptor中的数据包括idCard和profile中的所有字段
+    // acceptor中的数据
     req => req.body,
+    (data, req, res) => res.send({ ret: SUCCESS, data }),
+  ),
+);
+
+router.delete('/:id',
+  // 确保用户已登录
+  expressJwt({
+    secret,
+    credentialsRequired: true,
+    getToken,
+  }),
+  // 判断是否是Manager，只有这种角色可以修改数据
+  (req, res, next) => {
+    if (req.user.isManager) next();
+    else res.send({ ret: UNAUTHORIZED, msg: 'only manager can go next.' });
+  },
+  // 在acceptor中删除
+  acceptorMiddlewares.removeById(
+    // getId
+    req => tryRun(() => new ObjectId(req.params.id)),
     (data, req, res) => res.send({ ret: SUCCESS, data }),
   ),
 );
