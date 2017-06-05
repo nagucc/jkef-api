@@ -100,28 +100,10 @@ router.put('/',
       } else next();
     },
   ),
-  // 在profile中添加数据
-  profile.add(
-    (req) => {
-      // 只需要添加以下字段，其他字段忽略。
-      const { name, isMale, phone, userid } = req.body;
-      return {
-        name,
-        phone,
-        userid,
-        isMale: isMale === 'true',
-        isAcceptor: true,
-      };
-    },
-    (prof, req, res, next) => {
-      req.profile = prof;
-      next();
-    },
-  ),
   // 在acceptor中添加数据
   acceptorMiddlewares.insert(
     // acceptor中的数据包括idCard和profile中的所有字段
-    req => ({ idCard: req.body.idCard, ...req.profile }),
+    req => req.body,
     (data, req, res) => res.send({ ret: SUCCESS, data }),
   ),
 );
