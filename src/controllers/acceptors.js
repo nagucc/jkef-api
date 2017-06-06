@@ -236,12 +236,11 @@ router.put('/record/:id',
     credentialsRequired: true,
     getToken,
   }),
-  profile.isManager(
-    getId,
-    manageDpt,
-    (isManager, req, res, next) =>
-      isManager ? next() : res.send({ ret: UNAUTHORIZED }),
-  ),
+  // 判断是否是Manager，只有这种角色可以修改数据
+  (req, res, next) => {
+    if (req.user.isManager) next();
+    else res.send({ ret: UNAUTHORIZED, msg: 'only manager can go next.' });
+  },
   acceptorMiddlewares.addRecord(
     req => tryRun(() => new ObjectId(req.params.id)),
     req => tryRun(() => ({
@@ -260,12 +259,11 @@ router.delete('/record/:id/:recordId',
     credentialsRequired: true,
     getToken,
   }),
-  profile.isManager(
-    getId,
-    manageDpt,
-    (isManager, req, res, next) =>
-      isManager ? next() : res.send({ ret: UNAUTHORIZED }),
-  ),
+  // 判断是否是Manager，只有这种角色可以修改数据
+  (req, res, next) => {
+    if (req.user.isManager) next();
+    else res.send({ ret: UNAUTHORIZED, msg: 'only manager can go next.' });
+  },
   acceptorMiddlewares.removeRecord(
     req => tryRun(() => new ObjectId(req.params.id)),
     req => tryRun(() => new ObjectId(req.params.recordId)),
