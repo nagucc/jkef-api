@@ -36,6 +36,7 @@ app.use('/wxapp', controllers.wxapp);
 app.use('/cee', controllers.cee);
 app.use('/uir', controllers.uir);
 app.use('/events', controllers.events);
+app.use('/weixin', controllers.weixin);
 
 app.use((err, req, res, next) => {
   if (err.name === 'UnauthorizedError') res.status(401).json({ ret: 401, msg: err.message });

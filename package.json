@@ -39,7 +39,8 @@
     "mongodb": "^2.2.27",
     "morgan": "^1.7.0",
     "nagu-profile": "^0.5.2",
-    "nagu-validates": "^0.1.0"
+    "nagu-validates": "^0.1.0",
+    "node-fetch": "^1.7.1"
   },
   "devDependencies": {
     "babel-cli": "^6.16.0",
