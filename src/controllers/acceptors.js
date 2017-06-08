@@ -244,6 +244,7 @@ router.put('/record/:id',
   acceptorMiddlewares.addRecord(
     req => tryRun(() => new ObjectId(req.params.id)),
     req => tryRun(() => ({
+      ...req.body,
       project: req.body.project,
       amount: parseFloat(req.body.amount, 10),
       date: isNaN(Date.parse(req.body.date)) ? new Date() : new Date(req.body.date),
