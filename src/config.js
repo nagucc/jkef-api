@@ -30,3 +30,10 @@ export const manageDpt = parseInt(process.env.MANAGER_DEPT || '13', 10);
 export const supervisorDpt = parseInt(process.env.SUPERVISOR_DEPT || '14', 10);
 
 export const mockVersion = process.env.MOCK_VERSION || '0.0.0';
+
+// 腾讯COS配置
+export const cos = {
+  AppId: process.env.COS_APPID,
+  SecretId: process.env.COS_SECRETID,
+  SecretKey: process.env.COS_SECRETKEY,
+};

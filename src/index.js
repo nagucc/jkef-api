@@ -30,6 +30,7 @@ app.use(morgan('dev'));
 /*
 注册API
 */
+app.use('/upload', express.static('upload'));
 app.use('/acceptors', controllers.acceptors);
 app.use('/stat', controllers.stat);
 app.use('/wxapp', controllers.wxapp);
@@ -37,6 +38,7 @@ app.use('/cee', controllers.cee);
 app.use('/uir', controllers.uir);
 app.use('/events', controllers.events);
 app.use('/weixin', controllers.weixin);
+app.use('/files', controllers.files);
 
 app.use((err, req, res, next) => {
   if (err.name === 'UnauthorizedError') res.status(401).json({ ret: 401, msg: err.message });
