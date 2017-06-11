@@ -1,6 +1,9 @@
 const { Router } = require('express');
 const multer = require('multer');
 const uuidV1 = require('uuid/v1');
+const expressJwt = require('express-jwt');
+const { secret } = require('../config');
+const { getToken } = require('../utils');
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
@@ -20,6 +23,12 @@ const router = new Router();
 
 
 router.post('/upload',
+  // 确保用户已登录
+  expressJwt({
+    secret,
+    credentialsRequired: true,
+    getToken,
+  }),
   upload.single('file'),
   (req, res) => {
     res.json(req.file);
