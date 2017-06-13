@@ -150,7 +150,7 @@ router.get('/app/:appId/user/:userId',
 );
 
 // 删除指定Id的数据
-router.delete('/:iId',
+router.delete('/:id',
   // 返回mock数据
   (req, res, next) => {
     if (isMockVersion(req)) {
