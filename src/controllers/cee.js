@@ -15,17 +15,17 @@ const cim = new CeeInfoManager(mongoUrl);
 const router = new Router();
 
 router.put('/',
-    // 返回mock数据
-    (req, res, next) => {
-      if (isMockVersion(req)) {
-        res.json({
-          ret: SUCCESS,
-          data: {
-            _id: '592e61700000000000000000',
-          },
-        });
-      } else next();
-    },
+    // // 返回mock数据
+    // (req, res, next) => {
+    //   if (isMockVersion(req)) {
+    //     res.json({
+    //       ret: SUCCESS,
+    //       data: {
+    //         _id: '592e61700000000000000000',
+    //       },
+    //     });
+    //   } else next();
+    // },
   // 确保用户已登录
   expressJwt({
     secret,
@@ -47,28 +47,28 @@ router.put('/',
 );
 
 router.get('/list/:pageIndex',
-  // 返回mock数据
-  (req, res, next) => {
-    if (isMockVersion(req)) {
-      const list = [{
-        name: '张三',
-        fromSchool: '通海一中',
-        toSchool: '玉溪一中',
-        parentName: '张二',
-        homeAddress: '纳古纳家营二组',
-        phone: '18909879987',
-        examTypeText: '中考',
-        point: 536,
-      }];
-      res.json({
-        ret: SUCCESS,
-        data: {
-          list,
-          totalCount: list.length,
-        },
-      });
-    } else next();
-  },
+  // // 返回mock数据
+  // (req, res, next) => {
+  //   if (isMockVersion(req)) {
+  //     const list = [{
+  //       name: '张三',
+  //       fromSchool: '通海一中',
+  //       toSchool: '玉溪一中',
+  //       parentName: '张二',
+  //       homeAddress: '纳古纳家营二组',
+  //       phone: '18909879987',
+  //       examTypeText: '中考',
+  //       point: 536,
+  //     }];
+  //     res.json({
+  //       ret: SUCCESS,
+  //       data: {
+  //         list,
+  //         totalCount: list.length,
+  //       },
+  //     });
+  //   } else next();
+  // },
   // 确保用户已登录
   expressJwt({
     secret,
@@ -104,30 +104,30 @@ router.get('/list/:pageIndex',
 
 // 根据用户信息获取录取信息
 router.get('/app/:appId/user/:userId',
-  // 返回mock数据
-  (req, res, next) => {
-    if (isMockVersion(req)) {
-      const data = {
-        _id: '592e61700000000000000000',
-        name: '张三',
-        fromSchool: '通海一中',
-        toSchool: '玉溪一中',
-        parentName: '张二',
-        homeAddress: '纳古纳家营二组',
-        phone: '18909879987',
-        examTypeText: '中考',
-        examType: 4,
-        point: 536,
-        user: {
-          [req.params.appId]: req.params.userId,
-        },
-      };
-      res.json({
-        ret: SUCCESS,
-        data,
-      });
-    } else next();
-  },
+  // // 返回mock数据
+  // (req, res, next) => {
+  //   if (isMockVersion(req)) {
+  //     const data = {
+  //       _id: '592e61700000000000000000',
+  //       name: '张三',
+  //       fromSchool: '通海一中',
+  //       toSchool: '玉溪一中',
+  //       parentName: '张二',
+  //       homeAddress: '纳古纳家营二组',
+  //       phone: '18909879987',
+  //       examTypeText: '中考',
+  //       examType: 4,
+  //       point: 536,
+  //       user: {
+  //         [req.params.appId]: req.params.userId,
+  //       },
+  //     };
+  //     res.json({
+  //       ret: SUCCESS,
+  //       data,
+  //     });
+  //   } else next();
+  // },
   // 确保用户已登录
   expressJwt({
     secret,
@@ -151,14 +151,14 @@ router.get('/app/:appId/user/:userId',
 
 // 删除指定Id的数据
 router.delete('/:id',
-  // 返回mock数据
-  (req, res, next) => {
-    if (isMockVersion(req)) {
-      res.json({
-        ret: SUCCESS,
-      });
-    } else next();
-  },
+  // // 返回mock数据
+  // (req, res, next) => {
+  //   if (isMockVersion(req)) {
+  //     res.json({
+  //       ret: SUCCESS,
+  //     });
+  //   } else next();
+  // },
   // 确保用户已登录
   expressJwt({
     secret,
@@ -188,17 +188,17 @@ router.delete('/:id',
 );
 
 router.post('/:id',
-  // 返回mock数据
-  (req, res, next) => {
-    if (isMockVersion(req)) {
-      res.json({
-        ret: SUCCESS,
-        data: {
-          _id: '592e61700000000000000000',
-        },
-      });
-    } else next();
-  },
+  // // 返回mock数据
+  // (req, res, next) => {
+  //   if (isMockVersion(req)) {
+  //     res.json({
+  //       ret: SUCCESS,
+  //       data: {
+  //         _id: '592e61700000000000000000',
+  //       },
+  //     });
+  //   } else next();
+  // },
   // 确保用户已登录
   expressJwt({
     secret,
