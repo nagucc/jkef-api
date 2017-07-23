@@ -47,3 +47,5 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
   console.log(`The server is running at http://${host}/`); // eslint-disable-line
 });
+
+require('./jobs');

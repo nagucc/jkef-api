@@ -1,6 +1,7 @@
 import debug from 'debug';
 import { AcceptorMiddlewares, StatMiddlewares } from 'acceptor-middlewares';
 import { MongoProfileMiddlewares, MongoProfile } from 'nagu-profile';
+import AcceptorManager from 'jkef-model';
 
 // debug
 export const error = debug('jkef-api:error');
@@ -25,6 +26,11 @@ export const requestQueueName = process.env.AMQP_REQUEST_QUEUE_NAME || 'api-requ
 export const profileCollection = process.env.PROFILE_COLLECTION || 'profiles';
 export const profileManager = new MongoProfile(mongoUrl, profileCollection);
 export const profileMiddlewares = new MongoProfileMiddlewares(mongoUrl, profileCollection);
+
+export const acceptorManager = new AcceptorManager(mongoUrl, 'acceptors');
+
+// 用于受赠者统计的cron字符串,默认为2分钟统计一次。
+export const statCron = process.env.ACCEPTORS_STAT_CRON || '00 */2 * * * *';
 
 export const manageDpt = parseInt(process.env.MANAGER_DEPT || '13', 10);
 export const supervisorDpt = parseInt(process.env.SUPERVISOR_DEPT || '14', 10);
