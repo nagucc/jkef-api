@@ -279,28 +279,11 @@ router.post('/:id',
     credentialsRequired: true,
     getToken,
   }),
-  // 只有拥有者或Manager才能执行更新
-  profile.isOwnerOrManager(
-    req => tryRun(() => new ObjectId(req.params.id)),
-    getId,
-    manageDpt,
-    (isOwnerOrManager, req, res, next) => {
-      if (isOwnerOrManager) next();
-      else res.send({ ret: UNAUTHORIZED });
-    },
-  ),
-  // 只有Manager才能更新userid和name字段
-  profile.isManager(
-    getId,
-    manageDpt,
-    (isManager, req, res, next) => {
-      if (!isManager) {
-        delete req.body.userid;
-        delete req.body.name;
-      }
-      next();
-    },
-  ),
+  // 判断是否是Manager，只有这种角色可以修改数据
+  (req, res, next) => {
+    if (req.user.isManager) next();
+    else res.send({ ret: UNAUTHORIZED, msg: 'only manager can go next.' });
+  },
   // 执行更新操作
   acceptorMiddlewares.updateById(
     req => tryRun(() => new ObjectId(req.params.id)),
