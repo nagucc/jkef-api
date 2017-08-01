@@ -136,14 +136,11 @@ router.put('/edu/:id',
     getToken,
   }),
 
-  // 只有用户自己或管理员才能进行操作
-  profile.isOwnerOrManager(
-    req => tryRun(() => new ObjectId(req.params.id)),
-    getId,
-    manageDpt,
-    (isOwnerOrManager, req, res, next) =>
-      (isOwnerOrManager ? next() : res.send({ ret: UNAUTHORIZED })),
-  ),
+  // 判断是否是Manager，只有这种角色可以修改数据
+  (req, res, next) => {
+    if (req.user.isManager) next();
+    else res.send({ ret: UNAUTHORIZED, msg: 'only manager can go next.' });
+  },
  acceptorMiddlewares.addEdu(
    req => tryRun(() => new ObjectId(req.params.id)),
    req => tryRun(() => ({
@@ -162,14 +159,11 @@ router.delete('/edu/:id',
     credentialsRequired: true,
     getToken,
   }),
-  // 只有用户自己或管理员才能进行操作
-  profile.isOwnerOrManager(
-    req => tryRun(() => new ObjectId(req.params.id)),
-    getId,
-    manageDpt,
-    (isOwnerOrManager, req, res, next) =>
-      (isOwnerOrManager ? next() : res.send({ ret: UNAUTHORIZED })),
-  ),
+  // 判断是否是Manager，只有这种角色可以修改数据
+  (req, res, next) => {
+    if (req.user.isManager) next();
+    else res.send({ ret: UNAUTHORIZED, msg: 'only manager can go next.' });
+  },
   acceptorMiddlewares.removeEdu(
     req => tryRun(() => new ObjectId(req.params.id)),
     req => tryRun(() => ({
@@ -187,14 +181,11 @@ router.put('/career/:id',
     credentialsRequired: true,
     getToken,
   }),
-  // 只有用户自己或管理员才能进行操作
-  profile.isOwnerOrManager(
-    req => tryRun(() => new ObjectId(req.params.id)),
-    getId,
-    manageDpt,
-    (isOwnerOrManager, req, res, next) =>
-      (isOwnerOrManager ? next() : res.send({ ret: UNAUTHORIZED })),
-  ),
+  // 判断是否是Manager，只有这种角色可以修改数据
+  (req, res, next) => {
+    if (req.user.isManager) next();
+    else res.send({ ret: UNAUTHORIZED, msg: 'only manager can go next.' });
+  },
   acceptorMiddlewares.addCareer(
     req => tryRun(() => new ObjectId(req.params.id)),
     req => tryRun(() => ({
@@ -212,13 +203,11 @@ router.delete('/career/:id',
     credentialsRequired: true,
     getToken,
   }),
-  profile.isOwnerOrManager(
-    req => tryRun(() => new ObjectId(req.params.id)),
-    getId,
-    manageDpt,
-    (isOwnerOrManager, req, res, next) =>
-      isOwnerOrManager ? next() : res.send({ ret: UNAUTHORIZED }),
-  ),
+  // 判断是否是Manager，只有这种角色可以修改数据
+  (req, res, next) => {
+    if (req.user.isManager) next();
+    else res.send({ ret: UNAUTHORIZED, msg: 'only manager can go next.' });
+  },
   acceptorMiddlewares.removeCareer(
     req => tryRun(() => new ObjectId(req.params.id)),
     req => tryRun(() => ({
