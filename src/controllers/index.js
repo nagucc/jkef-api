@@ -7,6 +7,7 @@ const uir = require('./user-in-role').default;
 const events = require('./events').default;
 const weixin = require('./weixin').default;
 const files = require('./files').default;
+const entities = require('./entities').default;
 
 export default {
   stat,
@@ -17,4 +18,5 @@ export default {
   events,
   weixin,
   files,
+  entities,
 };
