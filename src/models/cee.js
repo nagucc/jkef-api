@@ -18,7 +18,7 @@ CeeInfo
 }
 */
 
-const EntityManager = require('./entity-manager').default;
+import EntityManager from './entity-manager';
 
 export default class CeeInfoManager extends EntityManager {
   constructor(mongUrl, collectionName = 'cee_info') {

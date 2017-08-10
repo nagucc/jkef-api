@@ -20,7 +20,9 @@
     ],
     "plugins": [
       "transform-runtime"
-    ]
+    ],
+    "sourceMaps": true,
+    "retainLines": true
   },
   "eslintConfig": {
     "parser": "babel-eslint",

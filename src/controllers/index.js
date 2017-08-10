@@ -1,13 +1,13 @@
 import stat from './stat';
 import acceptors from './acceptors';
 import wxapp from './wxapp';
-
-const cee = require('./cee').default;
-const uir = require('./user-in-role').default;
-const events = require('./events').default;
-const weixin = require('./weixin').default;
-const files = require('./files').default;
-const entities = require('./entities').default;
+import cee from './cee';
+import uir from './user-in-role';
+import events from './events';
+import weixin from './weixin';
+import files from './files';
+import entities from './entities';
+// import comments from './comments';
 
 export default {
   stat,
@@ -19,4 +19,5 @@ export default {
   weixin,
   files,
   entities,
+  // comments,
 };

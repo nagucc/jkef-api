@@ -44,7 +44,7 @@ export default class MongoUserInRole {
     if (existedUser) {
       // 进行更新
       info('Exist User:', existedUser);
-      uirId = existedUser._id;
+      uirId = existedUser._id; // eslint-disable-line
     } else {
       // 进行插入
       const db = await this.getDb();

@@ -8,8 +8,8 @@ import expressJwt from 'express-jwt';
 import { SUCCESS, UNAUTHORIZED, SERVER_FAILED } from 'nagu-validates';
 import { secret, mongoUrl } from '../config';
 import { getToken, isMockVersion } from '../utils';
+import CeeInfoManager from '../models/cee';
 
-const CeeInfoManager = require('../models/cee').default;
 
 const cim = new CeeInfoManager(mongoUrl);
 const router = new Router();

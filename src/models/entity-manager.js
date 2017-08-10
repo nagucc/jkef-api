@@ -4,10 +4,11 @@ EntityManager 类，用于生成一个通用的管理Entity的类。
 /*
 eslint-disable no-console
  */
+import { error, info } from '../config';
+
 const { useCollection } = require('mongo-use-collection'); // eslint-disable-line import/no-unresolved
 // import { ObjectId } from 'mongodb';
 
-const { error, info } = require('../config');
 
 export default class EntityManager {
   /**

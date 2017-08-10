@@ -12,7 +12,8 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import { host, port, cookieKey } from './config';
-import controllers from './controllers';
+import controllers from './controllers/index';
+import { startJobs } from './jobs';
 
 const app = express();
 
@@ -40,6 +41,7 @@ app.use('/events', controllers.events);
 app.use('/weixin', controllers.weixin);
 app.use('/files', controllers.files);
 
+// eslint-disable-next-line
 app.use((err, req, res, next) => {
   if (err.name === 'UnauthorizedError') res.status(401).json({ ret: 401, msg: err.message });
   else res.status(500).json({ ret: -1, msg: err.message });
@@ -48,4 +50,4 @@ app.listen(port, () => {
   console.log(`The server is running at http://${host}/`); // eslint-disable-line
 });
 
-require('./jobs');
+startJobs();

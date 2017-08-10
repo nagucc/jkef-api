@@ -8,8 +8,8 @@ import expressJwt from 'express-jwt';
 import { SUCCESS, UNAUTHORIZED, SERVER_FAILED } from 'nagu-validates';
 import { secret, mongoUrl } from '../config';
 import { getToken } from '../utils';
+import EntityManager from '../models/entity-manager';
 
-const EntityManager = require('../models/entity-manager').default;
 
 // const cim = new EntityManager(mongoUrl);
 const router = new Router();
