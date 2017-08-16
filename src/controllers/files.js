@@ -64,6 +64,10 @@ router.post('/upload',
     credentialsRequired: true,
     getToken,
   }),
+  (req, res, next) => {
+    console.log('#############', req.get('Content-Type'));
+    next();
+  },
   upload.single('file'),
   (req, res) => {
     // console.log(req);
