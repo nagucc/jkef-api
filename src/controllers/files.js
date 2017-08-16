@@ -68,10 +68,19 @@ router.post('/upload',
     console.log('#############', req.get('Content-Type'));
     next();
   },
-  upload.single('file'),
+  // upload.single('file'),
   (req, res) => {
+    console.log('### start');
+    upload.single('file')(req, res, (err) => {
+      console.log('errrrrr', err);
+      if (err) {
+        res.status(500).json({ ret: -1, msg: 'error' });
+      } else {
+        res.json(req.file);
+      }
+    });
     // console.log(req);
-    res.json(req.file);
+    // res.json(req.file);
   }
 );
 
