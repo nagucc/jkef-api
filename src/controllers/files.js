@@ -1,3 +1,4 @@
+import fs from 'fs';
 import expressJwt from 'express-jwt';
 import { secret } from '../config';
 import { getToken } from '../utils';
@@ -5,6 +6,20 @@ import { getToken } from '../utils';
 const { Router } = require('express');
 const multer = require('multer');
 const uuidV1 = require('uuid/v1');
+
+
+// 确保upload和jkef目录存在
+try {
+  fs.accessSync('upload');
+} catch (e) {
+  fs.mkdirSync('upload');
+}
+
+try {
+  fs.accessSync('upload/jkef');
+} catch (e) {
+  fs.mkdirSync('upload/jkef');
+}
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
