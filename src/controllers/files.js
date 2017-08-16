@@ -5,7 +5,7 @@ import { getToken } from '../utils';
 
 const { Router } = require('express');
 const multer = require('multer');
-const uuidV1 = require('uuid/v1');
+const uuid = require('uuid/v4'); // 使用v4（random）生成uuid
 
 
 // 确保upload和jkef目录存在
@@ -27,7 +27,8 @@ const storage = multer.diskStorage({
   },
   filename(req, file, cb) {
     const extName = file.originalname.split('.').reverse()[0];
-    cb(null, `${uuidV1()}.${extName}`);
+    console.log(`${uuid()}.${extName}`);
+    cb(null, `${uuid()}.${extName}`);
   },
 });
 
@@ -64,6 +65,7 @@ router.post('/upload',
   }),
   upload.single('file'),
   (req, res) => {
+    // console.log(req);
     res.json(req.file);
   }
 );
