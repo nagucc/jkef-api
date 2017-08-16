@@ -76,6 +76,7 @@ router.post('/upload',
       if (err) {
         res.status(500).json({ ret: -1, msg: 'error' });
       } else {
+        console.log('####', JSON.stringify(req));
         res.json(req.file);
       }
     });
