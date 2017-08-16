@@ -23,6 +23,7 @@ try {
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
+    console.log('####,desdf');
     cb(null, 'upload/jkef');
   },
   filename(req, file, cb) {
