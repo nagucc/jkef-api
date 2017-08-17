@@ -1,12 +1,12 @@
 import fs from 'fs';
 import expressJwt from 'express-jwt';
+import Busboy from 'busboy';
 import { secret } from '../config';
 import { getToken } from '../utils';
 
 const { Router } = require('express');
 const multer = require('multer');
 const uuid = require('uuid/v4'); // 使用v4（random）生成uuid
-
 
 // 确保upload和jkef目录存在
 try {
@@ -66,7 +66,18 @@ router.post('/upload',
   }),
   (req, res, next) => {
     console.log('#############', req.get('Content-Type'));
-    next();
+    const busboy = new Busboy({ headers: req.headers });
+    busboy.on('file', (field, file) => {
+      console.log('6666666666');
+      file.on('data', (data) => {
+        res.send(`###${data.length}`);
+      });
+    });
+    busboy.on('finish', () => {
+      res.send('done');
+    });
+    req.pipe(busboy);
+    // next();
   },
   // upload.single('file'),
   (req, res) => {
