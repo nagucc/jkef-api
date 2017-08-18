@@ -40,6 +40,7 @@ app.use('/uir', controllers.uir);
 app.use('/events', controllers.events);
 app.use('/weixin', controllers.weixin);
 app.use('/files', controllers.files);
+app.use('/cos', controllers.cos);
 
 // eslint-disable-next-line
 app.use((err, req, res, next) => {

@@ -7,6 +7,7 @@ import events from './events';
 import weixin from './weixin';
 import files from './files';
 import entities from './entities';
+import cos from './cos';
 // import comments from './comments';
 
 export default {
@@ -19,5 +20,6 @@ export default {
   weixin,
   files,
   entities,
+  cos,
   // comments,
 };

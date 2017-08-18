@@ -42,4 +42,5 @@ export const cos = {
   AppId: process.env.COS_APPID,
   SecretId: process.env.COS_SECRETID,
   SecretKey: process.env.COS_SECRETKEY,
+  bucket: process.env.COS_BUCKET,
 };
