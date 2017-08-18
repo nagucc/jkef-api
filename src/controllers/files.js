@@ -1,12 +1,12 @@
 import fs from 'fs';
 import expressJwt from 'express-jwt';
-import Busboy from 'busboy';
 import { secret } from '../config';
 import { getToken } from '../utils';
 
 const { Router } = require('express');
 const multer = require('multer');
-const uuid = require('uuid/v4'); // 使用v4（random）生成uuid
+const uuid = require('uuid/v4'); // 使用v4生成uuid
+
 
 // 确保upload和jkef目录存在
 try {
@@ -23,7 +23,6 @@ try {
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    console.log('####,desdf');
     cb(null, 'upload/jkef');
   },
   filename(req, file, cb) {
@@ -64,35 +63,10 @@ router.post('/upload',
     credentialsRequired: true,
     getToken,
   }),
-  (req, res, next) => {
-    console.log('#############', req.get('Content-Type'));
-    const busboy = new Busboy({ headers: req.headers });
-    busboy.on('file', (field, file) => {
-      console.log('6666666666');
-      file.on('data', (data) => {
-        res.send(`###${data.length}`);
-      });
-    });
-    busboy.on('finish', () => {
-      res.send('done');
-    });
-    req.pipe(busboy);
-    // next();
-  },
-  // upload.single('file'),
+  upload.single('file'),
   (req, res) => {
-    console.log('### start');
-    upload.single('file')(req, res, (err) => {
-      console.log('errrrrr', err);
-      if (err) {
-        res.status(500).json({ ret: -1, msg: 'error' });
-      } else {
-        // console.log('####', req);
-        res.json(Object.getOwnPropertyNames(req));
-      }
-    });
     // console.log(req);
-    // res.json(req.file);
+    res.json(req.file);
   }
 );
 
