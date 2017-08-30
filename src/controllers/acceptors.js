@@ -152,18 +152,38 @@ router.put('/edu/:id',
  ),
 );
 
+// 判断是否是Manager，只有这种角色可以修改数据
+const onlyManagerCanGoNext = (req, res, next) => {
+  if (req.user.isManager) next();
+  else res.send({ ret: UNAUTHORIZED, msg: 'only manager can go next.' });
+};
+// 确保用户已登录
+const ensureUserLogged = expressJwt({
+  secret,
+  credentialsRequired: true,
+  getToken,
+});
+
 router.delete('/edu/:id',
   // 确保用户已登录
-  expressJwt({
-    secret,
-    credentialsRequired: true,
-    getToken,
-  }),
+  ensureUserLogged,
   // 判断是否是Manager，只有这种角色可以修改数据
-  (req, res, next) => {
-    if (req.user.isManager) next();
-    else res.send({ ret: UNAUTHORIZED, msg: 'only manager can go next.' });
-  },
+  onlyManagerCanGoNext,
+  acceptorMiddlewares.removeEdu(
+    req => tryRun(() => new ObjectId(req.params.id)),
+    req => tryRun(() => ({
+      name: req.body.name,
+      year: parseInt(req.body.year, 10),
+    })),
+    (result, req, res) => res.send({ ret: SUCCESS }),
+  ),
+);
+
+router.post('/edu/remove/:id',
+  // 确保用户已登录
+  ensureUserLogged,
+  // 判断是否是Manager，只有这种角色可以修改数据
+  onlyManagerCanGoNext,
   acceptorMiddlewares.removeEdu(
     req => tryRun(() => new ObjectId(req.params.id)),
     req => tryRun(() => ({
