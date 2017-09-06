@@ -179,6 +179,7 @@ router.delete('/edu/:id',
   ),
 );
 
+// 与上一个route相同功能，目的是满足aliyun api网关的要求
 router.post('/edu/remove/:id',
   // 确保用户已登录
   ensureUserLogged,
@@ -228,6 +229,22 @@ router.delete('/career/:id',
     if (req.user.isManager) next();
     else res.send({ ret: UNAUTHORIZED, msg: 'only manager can go next.' });
   },
+  acceptorMiddlewares.removeCareer(
+    req => tryRun(() => new ObjectId(req.params.id)),
+    req => tryRun(() => ({
+      name: req.body.name,
+      year: parseInt(req.body.year, 10),
+    })),
+    (result, req, res) => res.send({ ret: SUCCESS }),
+  ),
+);
+
+// 与上一个route相同功能，目的是满足aliyun api网关的要求
+router.post('/career/remove/:id',
+  // 确保用户已登录
+  ensureUserLogged,
+  // 判断是否是Manager，只有这种角色可以修改数据
+  onlyManagerCanGoNext,
   acceptorMiddlewares.removeCareer(
     req => tryRun(() => new ObjectId(req.params.id)),
     req => tryRun(() => ({
