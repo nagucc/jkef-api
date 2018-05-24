@@ -36,7 +36,6 @@ app.use('/acceptors', controllers.acceptors);
 app.use('/stat', controllers.stat);
 app.use('/wxapp', controllers.wxapp);
 app.use('/cee', controllers.cee);
-app.use('/uir', controllers.uir);
 app.use('/events', controllers.events);
 app.use('/weixin', controllers.weixin);
 app.use('/files', controllers.files);
